@@ -1,30 +1,26 @@
 package com.chatterup.chatterup.models;
 
 public class User {
-    private Integer id;
+    private int id;
     private String username;
     private String picture;
 
     public User() {
     }
 
-    public User(Integer id, String username) {
+    public User(int id, String username) {
         this.id = id;
         this.username = username;
     }
 
-    public User(Integer id, String username, String picture) {
+    public User(int id, String username, String picture) {
         this.id = id;
         this.username = username;
         this.picture = picture;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getUsername() {
