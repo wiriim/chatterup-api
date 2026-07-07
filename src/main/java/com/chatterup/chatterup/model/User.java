@@ -1,22 +1,27 @@
-package com.chatterup.chatterup.models;
+package com.chatterup.chatterup.model;
 
+import jakarta.persistence.*;
+
+import java.util.List;
+
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String username;
+
     private String picture;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Message> messages;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Chat> chats;
+
     public User() {
-    }
-
-    public User(int id, String username) {
-        this.id = id;
-        this.username = username;
-    }
-
-    public User(int id, String username, String picture) {
-        this.id = id;
-        this.username = username;
-        this.picture = picture;
     }
 
     public int getId() {

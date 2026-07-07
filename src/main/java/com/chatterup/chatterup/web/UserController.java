@@ -1,6 +1,7 @@
 package com.chatterup.chatterup.web;
 
-import com.chatterup.chatterup.models.User;
+import com.chatterup.chatterup.model.User;
+import com.chatterup.chatterup.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,35 +9,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class UserController {
-    private final Map<Integer, User> users = new HashMap<>() {{
-        put(1, new User(1, "John"));
-        put(2, new User(2, "Doe"));
-        put(3, new User(3, "Smith"));
-        put(4, new User(4, "Jane"));
-    }};
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/users")
     public Collection<User> getUsers() {
-        return users.values();
+        return userService.getAll();
     }
 
     @GetMapping("/users/{id}")
-    public User getUserById(@PathVariable Integer id) {
-        return users.get(id);
+    public Optional<User> getUserById(@PathVariable int id) {
+        return userService.getById(id);
     }
 
     @PostMapping("/users")
     public User createUser(@RequestBody User user) {
-        users.put(user.getId(), user);
-        return user;
+        return userService.createUser(user);
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
-        users.remove(id);
+    public ResponseEntity<?> deleteUser(@PathVariable int id) {
+        userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
