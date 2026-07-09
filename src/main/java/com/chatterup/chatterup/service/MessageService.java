@@ -8,6 +8,8 @@ import com.chatterup.chatterup.repository.ChatRepository;
 import com.chatterup.chatterup.repository.MessageRepository;
 import com.chatterup.chatterup.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -28,6 +30,7 @@ public class MessageService {
         return messageRepository.findAllByChat_Id(id);
     }
 
+    @Transactional(propagation= Propagation.REQUIRED, noRollbackFor=Exception.class)
     public Message createMessage(CreateMessageRequest request){
         Message message = new Message(request.getContent());
         Chat chat = chatRepository.findById(request.getChatId()).orElseThrow();

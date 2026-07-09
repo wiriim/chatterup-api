@@ -6,6 +6,9 @@ import com.chatterup.chatterup.model.Chat;
 import com.chatterup.chatterup.model.Message;
 import com.chatterup.chatterup.service.ChatService;
 import com.chatterup.chatterup.service.MessageService;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -15,10 +18,18 @@ import java.util.Optional;
 public class ChatController {
     private final ChatService chatService;
     private final MessageService messageService;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
-    public ChatController(ChatService chatService, MessageService messageService) {
+    public ChatController(ChatService chatService, MessageService messageService, SimpMessagingTemplate simpMessagingTemplate) {
         this.chatService = chatService;
         this.messageService = messageService;
+        this. simpMessagingTemplate = simpMessagingTemplate;
+    }
+
+    @MessageMapping("/chat/{chatId}")
+    public void sendMessage(CreateMessageRequest request){
+        Message message = messageService.createMessage(request);
+        simpMessagingTemplate.convertAndSend("/chat/" + request.getChatId(), message);
     }
 
     @GetMapping("/chats")

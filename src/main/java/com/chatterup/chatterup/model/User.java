@@ -1,5 +1,6 @@
 package com.chatterup.chatterup.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,9 +17,11 @@ public class User {
     private String picture;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Message> messages;
 
     @ManyToMany(mappedBy = "users")
+    @JsonIgnore
     private List<Chat> chats;
 
     public User() {
