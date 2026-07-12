@@ -26,10 +26,11 @@ public class ChatController {
         this. simpMessagingTemplate = simpMessagingTemplate;
     }
 
-    @MessageMapping("/chat/{chatId}")
+    @MessageMapping("/chat/{userId}")
     public void sendMessage(CreateMessageRequest request){
         Message message = messageService.createMessage(request);
-        simpMessagingTemplate.convertAndSend("/chat/" + request.getChatId(), message);
+        Optional<Chat> chat = chatService.getChatById(message.getChat().getId());
+        simpMessagingTemplate.convertAndSend("/chat/" + request.getUserId(), chat);
     }
 
     @GetMapping("/chats")
