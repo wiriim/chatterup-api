@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 public class UserController {
 
     private final UserService userService;
@@ -25,14 +26,20 @@ public class UserController {
         return userService.getAll();
     }
 
-    @GetMapping("/users/{id}")
-    public Optional<User> getUserById(@PathVariable int id) {
-        return userService.getById(id);
+    @GetMapping("/users/{username}")
+    public Optional<User> getUserById(@PathVariable String username) {
+        return userService.getByUsername(username);
     }
 
     @PostMapping("/users")
     public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+        Optional<User> currentUser = userService.getByUsername(user.getUsername());
+
+        if (currentUser.isEmpty()){
+            return userService.createUser(user);
+        }
+
+        return user;
     }
 
     @DeleteMapping("/users/{id}")

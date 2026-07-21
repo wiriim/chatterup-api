@@ -23,6 +23,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Optional<User> getByUsername(String username){
+        return userRepository.findByUsernameIgnoreCase(username);
+    }
+
     public User createUser(User user){
         return userRepository.save(user);
     }
