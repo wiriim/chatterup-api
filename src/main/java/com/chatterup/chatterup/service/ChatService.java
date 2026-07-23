@@ -45,4 +45,8 @@ public class ChatService {
 
         return chatRepository.save(chat);
     }
+
+    public Collection<Chat> getUserChats(String username){
+        return chatRepository.findByUsersUsername(username);
+    }
 }
