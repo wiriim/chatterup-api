@@ -27,7 +27,7 @@ public class MessageService {
     }
 
     public Collection<Message> getChatMessages(int id){
-        return messageRepository.findAllByChat_Id(id);
+        return messageRepository.findAllByChat_IdOrderByDateAsc(id);
     }
 
     @Transactional(propagation= Propagation.REQUIRED, noRollbackFor=Exception.class)

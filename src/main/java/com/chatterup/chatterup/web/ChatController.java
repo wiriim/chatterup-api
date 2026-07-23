@@ -1,14 +1,18 @@
 package com.chatterup.chatterup.web;
 
+import com.chatterup.chatterup.dto.ChatResponse;
 import com.chatterup.chatterup.dto.CreateChatRequest;
 import com.chatterup.chatterup.dto.CreateMessageRequest;
 import com.chatterup.chatterup.model.Chat;
 import com.chatterup.chatterup.model.Message;
+import com.chatterup.chatterup.model.User;
 import com.chatterup.chatterup.service.ChatService;
 import com.chatterup.chatterup.service.MessageService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -28,10 +32,14 @@ public class ChatController {
     }
 
     @MessageMapping("/chat/{userId}")
+    @Transactional(propagation= Propagation.REQUIRED, noRollbackFor=Exception.class)
     public void sendMessage(CreateMessageRequest request){
         Message message = messageService.createMessage(request);
-        Optional<Chat> chat = chatService.getChatById(message.getChat().getId());
-        simpMessagingTemplate.convertAndSend("/chat/" + request.getUserId(), chat);
+        Chat chat = chatService.getChatById(message.getChat().getId()).orElseThrow();
+        ChatResponse chatResponse = new ChatResponse(chat.getId(), chat.getName(), chat.getMessages().get(chat.getMessages().size()-1));
+        for (User user : chat.getUsers()){
+            simpMessagingTemplate.convertAndSend("/chat/" + user.getId(), chatResponse);
+        }
     }
 
     @GetMapping("/chats")

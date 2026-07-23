@@ -21,6 +21,7 @@ public class Chat {
     private List<User> users;
 
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
+    @OrderBy("date asc")
     private List<Message> messages;
 
     public Chat() {

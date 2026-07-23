@@ -7,4 +7,6 @@ import java.util.Collection;
 
 public interface MessageRepository extends JpaRepository<Message, Integer> {
     Collection<Message> findAllByChat_Id(int chatId);
+
+    Collection<Message> findAllByChat_IdOrderByDateAsc(int chatId);
 }
