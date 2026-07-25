@@ -68,4 +68,9 @@ public class ChatController {
         return messageService.createMessage(request);
     }
 
+    @PostMapping("/chats/{chatId}/users/{userId}")
+    public Chat addUserToChat(@PathVariable int chatId, @PathVariable int userId) {
+        return chatService.addUserToChat(chatId, userId);
+    }
+
 }

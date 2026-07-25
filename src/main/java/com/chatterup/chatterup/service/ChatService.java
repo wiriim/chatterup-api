@@ -49,4 +49,12 @@ public class ChatService {
     public Collection<Chat> getUserChats(String username){
         return chatRepository.findByUsersUsername(username);
     }
+
+    public Chat addUserToChat(int chatId, int userId){
+        Chat chat = chatRepository.findById(chatId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow();
+        chat.getUsers().add(user);
+        chatRepository.save(chat);
+        return chat;
+    }
 }
