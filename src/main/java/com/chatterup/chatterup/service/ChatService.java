@@ -53,7 +53,9 @@ public class ChatService {
     public Chat addUserToChat(int chatId, int userId){
         Chat chat = chatRepository.findById(chatId).orElseThrow();
         User user = userRepository.findById(userId).orElseThrow();
-        chat.getUsers().add(user);
+        if (!chat.getUsers().contains(user)){
+            chat.getUsers().add(user);
+        }
         chatRepository.save(chat);
         return chat;
     }
