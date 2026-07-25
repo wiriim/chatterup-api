@@ -62,8 +62,9 @@ public class ChatController {
         return messageService.getChatMessages(id);
     }
 
-    @PostMapping("/chats/messages")
-    public Message createMessage(@RequestBody CreateMessageRequest request) {
+    @PostMapping("/chats/{id}/messages")
+    public Message createMessage(@PathVariable int id, @RequestBody CreateMessageRequest request) {
+        request.setChatId(id);
         return messageService.createMessage(request);
     }
 
