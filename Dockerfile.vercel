@@ -13,4 +13,4 @@ ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 ARG JAR_FILE=/app/target/*.jar
 COPY --from=build ${JAR_FILE} app.jar
-ENTRYPOINT ["sh", "-c", "echo PATH=$PATH; which java || true; java -version; java -jar /app/app.jar"]
+ENTRYPOINT ["/opt/java/openjdk/bin/java", "-jar", "/app/app.jar"]
