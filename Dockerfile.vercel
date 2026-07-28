@@ -4,6 +4,10 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:17-jre
+RUN echo "=== BUILD ==="
+RUN echo "PATH=$PATH"
+RUN which java
+RUN java -version
 WORKDIR /app
 ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
