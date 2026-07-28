@@ -3,8 +3,8 @@ WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin
+FROM eclipse-temurin:17-jre
 WORKDIR /app
 ARG JAR_FILE=/app/target/*.jar
 COPY --from=build ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+ENTRYPOINT ["sh", "-c", "echo 'Starting Java'; java -version; env | sort; java -jar /app/app.jar"]
