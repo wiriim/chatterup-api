@@ -1,0 +1,39 @@
+# Build Outputs
+target/
+build/
+out/
+*.jar
+*.war
+
+# IDE and Editor Files
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Local Logs & Runtime Artifacts
+*.log
+logs/
+.gradle/
+.mvn/wrapper/maven-wrapper.jar
+
+# Version Control & CI/CD
+.git
+.gitignore
+.github/
+.gitlab-ci.yml
+
+# Environment & Sensitive Files
+.env
+.env.*
+secrets/
+
+# Documentation & Miscellaneous
+README.md
+HELP.md
+docker-compose*.yml
+Dockerfile
