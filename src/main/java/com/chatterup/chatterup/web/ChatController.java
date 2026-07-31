@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin
+@RequestMapping("/api")
 public class ChatController {
     private final ChatService chatService;
     private final MessageService messageService;
