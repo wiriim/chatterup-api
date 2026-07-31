@@ -28,6 +28,7 @@ logs/
 .gitlab-ci.yml
 
 # Environment & Sensitive Files
+config/
 .env
 .env.*
 secrets/
